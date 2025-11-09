@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>게시글 수정</title>
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/articles/edit.css" />
+  </head>
+  <body>
+    <div class="article-edit-wrapper">
+      <h1>게시글 수정</h1>
+
+      <main class="article-edit-container">
+        <form
+          class="article-edit-form"
+          action="/articles/1"
+          method="post"
+          enctype="multipart/form-data"
+          data-article-id="1"
+        >
+          <div class="form-field">
+            <label for="title">제목*</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="제목을 입력해주세요. (최대 26글자)"
+              maxlength="26"
+              required
+              value="제목 1"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="content">내용*</label>
+            <textarea id="content" name="content" rows="12" required>
+무엇을 얘기할까요? 아무말이라면, 삶은 항상 놀라운 모험이라고 생각합니다. 우리는 매일 새로운 경험을 하고 배우며 성장합니다. 때로는 어려움과 도전이 있지만, 그것들이 우리를 더 강하고 지혜롭게 만듭니다. 또한 우리는 주변의 사람들과 연결되며 사랑과 지지를 받습니다. 그래서 우리의 삶은 소중하고 의미가 있습니다.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt, nunc vitae lobortis vehicula, sapien nisl pharetra lacus, sed sollicitudin massa arcu in ex. Integer pulvinar dictum massa, vitae efficitur mauris porttitor eget. Vivamus id justo vel mauris tempor accumsan. Proin convallis dui sed feugiat bibendum.</textarea
+            >
+            <small class="field-error-message">* helper text</small>
+          </div>
+
+          <div class="form-field">
+            <label for="image">이미지</label>
+            <input type="file" id="image" name="image" accept="image/*" />
+          </div>
+
+          <button type="submit">수정하기</button>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>

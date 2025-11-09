@@ -135,7 +135,7 @@
 .comment-form textarea {
   width: 100%;
   min-height: 96px;
-  resize: vertical;
+  resize: none;
   padding: 12px;
   border: 1px solid #cfd6df;
   border-radius: 12px;
