@@ -1,0 +1,40 @@
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-container {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 20px;
+}
+
+.header-back {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.header-title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.header-profile {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #111;
+}
+
+.header-divider {
+  border: none;
+  border-top: 1px solid #111;
+  margin: 0;
+}
