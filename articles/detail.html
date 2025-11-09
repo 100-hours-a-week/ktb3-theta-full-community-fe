@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>아무말대잔치</title>
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/articles/detail.css" />
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <div class="article-detail-wrapper">
+      <main class="article-detail-container" data-article-id="">
+        <header class="post-head">
+          <h1 class="post-title" id="post-title">제목 1</h1>
+          <div class="post-meta">
+            <div class="post-meta-details">
+              <div class="author">
+                <span class="avatar" aria-hidden="true"></span>
+                <span class="name" id="post-author">작성자</span>
+              </div>
+              <time class="time" id="post-time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
+            </div>
+
+            <div class="post-actions">
+              <button class="post-action-button" id="post-edit-button" aria-label="게시글 수정">수정</button>
+              <button class="post-action-button" id="post-delete-button" aria-label="게시글 삭제">삭제</button>
+            </div>
+          </div>
+        </header>
+        <hr class="divider" />
+
+        <figure class="post-cover">
+          <img id="post-image" alt="" />
+          <figcaption class="visually-hidden">게시글 대표 이미지</figcaption>
+        </figure>
+
+        <article id="post-body">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt, nunc vitae lobortis vehicula,
+            sapien nisl pharetra lacus, sed sollicitudin massa arcu in ex. Integer pulvinar dictum massa, vitae
+            efficitur mauris porttitor eget. Praesent non hendrerit est.
+          </p>
+          <p>
+            Vivamus id justo vel mauris tempor accumsan. Proin convallis, dui sed feugiat bibendum, lorem ipsum
+            consequat velit, et luctus orci massa in leo. Sed non nisl id nunc fermentum ultrices.
+          </p>
+        </article>
+
+        <!-- 카운터 -->
+        <section class="post-stats" aria-label="게시글 통계">
+          <div class="stat">
+            <strong id="like-count">0</strong>
+            <span>좋아요수</span>
+          </div>
+          <div class="stat">
+            <strong id="view-count">0</strong>
+            <span>조회수</span>
+          </div>
+          <div class="stat">
+            <strong id="comment-count">0</strong>
+            <span>댓글</span>
+          </div>
+        </section>
+        <hr class="divider" />
+
+        <section class="comment-write" aria-label="댓글 작성">
+          <form id="comment-form" class="comment-form" action="#" method="post" data-api="">
+            <label class="visually-hidden" for="comment-content">댓글</label>
+            <textarea id="comment-content" name="content" placeholder="댓글을 남겨주세요!" rows="4" required></textarea>
+            <button type="submit" id="comment-submit">댓글 등록</button>
+          </form>
+        </section>
+
+        <section class="comment-list" aria-label="댓글 목록" id="comment-list">
+          <article class="comment-item" data-comment-id="">
+            <div class="comment-avatar">
+              <span class="avatar" aria-hidden="true"></span>
+            </div>
+            <div class="comment-content">
+              <div class="comment-meta-container">
+                <div class="comment-meta">
+                  <span class="name">작성자</span>
+                  <time class="time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
+                </div>
+                <div class="post-actions">
+                  <button class="post-action-button" id="comment-edit-button" aria-label="게시글 수정">수정</button>
+                  <button class="post-action-button" id="comment-delete-button" aria-label="게시글 삭제">삭제</button>
+                </div>
+              </div>
+              <p class="comment-body">댓글 내용</p>
+            </div>
+          </article>
+
+          <article class="comment-item" data-comment-id="">
+            <div class="comment-avatar">
+              <span class="avatar" aria-hidden="true"></span>
+            </div>
+            <div class="comment-content">
+              <div class="comment-meta-container">
+                <div class="comment-meta">
+                  <span class="name">작성자</span>
+                  <time class="time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
+                </div>
+              </div>
+              <p class="comment-body">댓글 내용</p>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <!-- 추후 API 연동 시 이 자리에서 fetch → #post-*와 목록에 주입하면 됨 -->
+  </body>
+</html>
