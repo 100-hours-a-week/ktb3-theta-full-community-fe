@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>아무말대잔치</title>
     <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/components/header.css" />
     <link rel="stylesheet" href="../styles/articles/write.css" />
+    <script type="module" src="../scripts/pages/articles/write.js" defer></script>
   </head>
   <body>
+    <div id="header"></div>
+
     <div class="article-write-wrapper">
       <h1>게시글 작성</h1>
 
@@ -28,7 +32,7 @@
           <div class="form-field">
             <label for="content">내용*</label>
             <textarea id="content" name="content" placeholder="내용을 입력해주세요." rows="10" required></textarea>
-            <small class="field-error-message">* helper text</small>
+            <small class="field-error-message"></small>
           </div>
 
           <div class="form-field">
