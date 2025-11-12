@@ -75,7 +75,7 @@
   color: #d04b4b;
 }
 
-.c-avatar-picker {
+.profile-image-picker {
   margin: 12px auto 4px;
   width: 180px;
   height: 180px;
@@ -88,18 +88,18 @@
   overflow: hidden;
 }
 
-.c-avatar-picker img {
+.profile-image-picker img {
   display: none;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.c-avatar-picker.has-image img {
+.profile-image-picker.has-image img {
   display: block;
 }
 
-.c-avatar-picker__badge {
+.profile-image-picker-badge {
   position: absolute;
   bottom: 50%;
   transform: translateY(50%);

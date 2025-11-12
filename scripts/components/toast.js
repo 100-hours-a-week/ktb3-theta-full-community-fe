@@ -11,7 +11,7 @@ function createToastContainer() {
   return toastContainer;
 }
 
-export function showToast(message, duration = 3000) {
+export function showToast(message, duration = 5000) {
   const container = createToastContainer();
   container.textContent = message;
   container.style.opacity = "0.9";
