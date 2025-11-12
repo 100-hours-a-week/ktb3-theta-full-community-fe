@@ -54,6 +54,7 @@
   border-radius: 16px;
   padding: 18px 18px 14px;
   box-shadow: 0 2px 8px rgba(16, 24, 40, 0.04);
+  cursor: pointer;
 }
 
 .card-header {

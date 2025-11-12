@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>게시글 수정</title>
     <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/components/header.css" />
     <link rel="stylesheet" href="../styles/articles/edit.css" />
+    <script type="module" src="../scripts/pages/articles/edit.js"></script>
   </head>
   <body>
+    <div id="header"></div>
+
     <div class="article-edit-wrapper">
       <h1>게시글 수정</h1>
 
@@ -35,11 +39,8 @@
           <div class="form-field">
             <label for="content">내용*</label>
             <textarea id="content" name="content" rows="12" required>
-무엇을 얘기할까요? 아무말이라면, 삶은 항상 놀라운 모험이라고 생각합니다. 우리는 매일 새로운 경험을 하고 배우며 성장합니다. 때로는 어려움과 도전이 있지만, 그것들이 우리를 더 강하고 지혜롭게 만듭니다. 또한 우리는 주변의 사람들과 연결되며 사랑과 지지를 받습니다. 그래서 우리의 삶은 소중하고 의미가 있습니다.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt, nunc vitae lobortis vehicula, sapien nisl pharetra lacus, sed sollicitudin massa arcu in ex. Integer pulvinar dictum massa, vitae efficitur mauris porttitor eget. Vivamus id justo vel mauris tempor accumsan. Proin convallis dui sed feugiat bibendum.</textarea
             >
-            <small class="field-error-message">* helper text</small>
+            <small class="field-error-message"></small>
           </div>
 
           <div class="form-field">

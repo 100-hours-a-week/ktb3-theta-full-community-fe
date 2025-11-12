@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>아무말대잔치</title>
     <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/components/header.css" />
     <link rel="stylesheet" href="../styles/articles/detail.css" />
+    <script type="module" src="../scripts/pages/articles/detail.js"></script>
   </head>
   <body>
     <div id="header"></div>
@@ -37,18 +39,9 @@
         </figure>
 
         <article id="post-body">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt, nunc vitae lobortis vehicula,
-            sapien nisl pharetra lacus, sed sollicitudin massa arcu in ex. Integer pulvinar dictum massa, vitae
-            efficitur mauris porttitor eget. Praesent non hendrerit est.
-          </p>
-          <p>
-            Vivamus id justo vel mauris tempor accumsan. Proin convallis, dui sed feugiat bibendum, lorem ipsum
-            consequat velit, et luctus orci massa in leo. Sed non nisl id nunc fermentum ultrices.
-          </p>
+          <p></p>
         </article>
 
-        <!-- 카운터 -->
         <section class="post-stats" aria-label="게시글 통계">
           <div class="stat">
             <strong id="like-count">0</strong>
@@ -110,7 +103,5 @@
         </section>
       </main>
     </div>
-
-    <!-- 추후 API 연동 시 이 자리에서 fetch → #post-*와 목록에 주입하면 됨 -->
   </body>
 </html>

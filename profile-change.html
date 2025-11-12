@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>아무말대잔치</title>
     <link rel="stylesheet" href="./styles/global.css" />
+    <link rel="stylesheet" href="./styles/components/header.css" />
     <link rel="stylesheet" href="./styles/profile-change.css" />
+    <script type="module" src="./scripts/pages/profile-change.js"></script>
   </head>
   <body>
     <div id="header"></div>
@@ -34,7 +36,7 @@
           <div class="form-field">
             <label for="nickname">닉네임</label>
             <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required />
-            <small class="field-error-message">* helper text</small>
+            <small class="field-error-message"></small>
           </div>
 
           <button type="submit">수정하기</button>
