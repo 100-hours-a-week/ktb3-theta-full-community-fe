@@ -9,11 +9,13 @@ function main() {
   const form = document.querySelector('form[action="/articles"]');
   const titleInput = document.getElementById("title");
   const contentInput = document.getElementById("content");
+  const imageInput = document.getElementById("image");
   const help = getErrorMessageElement(contentInput);
 
   form.addEventListener("submit", handleSubmit);
   titleInput?.addEventListener("blur", () => validateField(titleInput));
   contentInput?.addEventListener("blur", () => validateField(contentInput));
+  // TODO : 이미지 처리 로직 추가
 
   function validateField(input) {
     help.style.display = "block";
@@ -23,8 +25,6 @@ function main() {
         help.textContent = "제목을 반드시 채워야 합니다.";
         return false;
       }
-      help.textContent = "";
-      return true;
     }
 
     if (input === contentInput) {
@@ -32,8 +32,6 @@ function main() {
         help.textContent = "내용을 반드시 채워야 합니다.";
         return false;
       }
-      help.textContent = "";
-      return true;
     }
 
     help.textContent = "";
@@ -43,11 +41,11 @@ function main() {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    const userId = getUserId();
+
     if (!validateField(titleInput) || !validateField(contentInput)) {
       return;
     }
-
-    const userId = getUserId();
 
     const payload = {
       title: titleInput.value,
@@ -63,7 +61,7 @@ function main() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw Error(data?.message || "게시글 작성에 실패했습니다.");
+        throw new Error(data?.message || "게시글 작성에 실패했습니다.");
       }
 
       location.href = "/index.html";
