@@ -109,6 +109,8 @@
   border-radius: 12px;
   padding: 14px 12px;
   text-align: center;
+  border: none;
+  cursor: default;
 }
 
 .stat strong {
@@ -118,6 +120,22 @@
 
 .stat span {
   font-size: 12px;
+}
+
+.like-button {
+  cursor: pointer;
+  background: #d9d9d9;
+  transition: background-color 0.2s ease;
+}
+
+.like-button.is-liked {
+  background: #aca0eb;
+  color: #111;
+}
+
+.like-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
 .comment-form {

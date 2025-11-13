@@ -19,6 +19,9 @@ function main() {
   const commentTextarea = document.getElementById("comment-content");
   let commentErrorEl;
   const commentSubmitBtn = document.getElementById("comment-submit");
+  if (commentSubmitBtn) {
+    commentSubmitBtn.disabled = true;
+  }
   let commentObserver;
   let commentSentinelEl;
   let commentStateEl;
@@ -28,6 +31,10 @@ function main() {
   let editingCommentId = null;
   const commentCountEl = document.getElementById("comment-count");
   let commentCountValue = Number(commentCountEl?.textContent) || 0;
+  let likeButton;
+  let likeCount = 0;
+  let isLiked = false;
+  let likeThrottle = false;
 
   const params = new URLSearchParams(location.search);
   articleId = params.get("articleId");
@@ -73,7 +80,8 @@ function main() {
       timeEl.textContent = createdAt ? formatDate(createdAt) : "";
     }
 
-    setStatValue("like-count", article.likeCount);
+    likeCount = article.likeCount;
+    setStatValue("like-count", likeCount);
     setStatValue("view-count", article.viewCount);
     setCommentCount(article.commentCount);
 
@@ -147,9 +155,25 @@ function main() {
     }
   }
 
+  async function fetchLikeStatus() {
+    try {
+      const data = await api.get(`/articles/${articleId}/likes`, { params: { userId } });
+      likeCount = data.result.like_count ?? likeCount;
+      isLiked = Boolean(data.result.is_liked);
+      updateLikeButtonAppearance();
+    } catch (err) {
+      console.error("좋아요 상태를 불러오지 못했습니다.", err);
+    }
+  }
+
   function bindArticleButtons() {
     const editBtn = document.getElementById("post-edit-button");
     const deleteBtn = document.getElementById("post-delete-button");
+    likeButton = document.getElementById("like-button");
+    if (likeButton) {
+      likeButton.addEventListener("click", handleToggleLike);
+      fetchLikeStatus();
+    }
 
     if (editBtn) {
       editBtn.addEventListener("click", () => {
@@ -167,13 +191,47 @@ function main() {
         if (!ok) return;
 
         try {
-          await api.delete(`/articles/${articleId}`, { params: { userId } });
+          await api.del(`/articles/${articleId}`, { params: { userId } });
           location.replace("/index.html");
         } catch (err) {
           showToast(err.message || "게시글 삭제에 실패했습니다.");
         }
       });
     }
+  }
+
+  async function handleToggleLike() {
+    if (likeThrottle) return;
+    likeThrottle = true;
+
+    try {
+      if (isLiked) {
+        await api.del(`/articles/${articleId}/likes`, { params: { userId } });
+        likeCount = Math.max(0, likeCount - 1);
+        isLiked = false;
+      } else {
+        await api.post(`/articles/${articleId}/likes`, { params: { userId } });
+        likeCount += 1;
+        isLiked = true;
+      }
+      updateLikeButtonAppearance();
+    } catch (err) {
+      // TODO: 좋아요 처리 실패
+    } finally {
+      setTimeout(() => {
+        likeThrottle = false;
+      }, 600);
+    }
+  }
+
+  function updateLikeButtonAppearance() {
+    const likeCountEl = document.getElementById("like-count");
+    if (likeCountEl) {
+      likeCountEl.textContent = formatCount(likeCount);
+    }
+    if (!likeButton) return;
+    likeButton.classList.toggle("is-liked", isLiked);
+    likeButton.style.backgroundColor = isLiked ? "#ACA0EB" : "#D9D9D9";
   }
 
   async function loadComments(reset = false) {
@@ -262,6 +320,7 @@ function main() {
       }
 
       setCommentError("");
+      if (commentSubmitBtn) commentSubmitBtn.disabled = true;
       const submitBtn = commentForm.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
 
