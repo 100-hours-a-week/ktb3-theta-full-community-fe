@@ -1,6 +1,220 @@
-if (localStorage.getItem("userId") == null) {
-  location.replace("/login.html");
+import { getUserId } from "../../utils/auth.js";
+import { fetchHeader } from "../../utils/dom.js";
+import { formatDate, formatCount } from "../../utils/format.js";
+
+document.addEventListener("DOMContentLoaded", main);
+
+function main() {
+  fetchHeader();
+  getUserId();
+
+  const ARTICLE_PAGE_SIZE = 7;
+  const articleListEl = document.querySelector(".article-list");
+  if (!articleListEl) return;
+
+  let stateMessageEl;
+  let sentinelEl;
+  let observer;
+  let isLoading = false;
+  let hasNextPage = true;
+  let page;
+
+  setupListScaffolding();
+  const params = new URLSearchParams(location.search);
+  page = Math.max(Number(params.get("page") || 1), 1);
+
+  observer = new IntersectionObserver(handleArticleIntersection, {
+    rootMargin: "0px 0px 200px 0px",
+  });
+  observer.observe(sentinelEl);
+
+  loadArticles(true);
+
+  function setupListScaffolding() {
+    articleListEl.innerHTML = "";
+
+    sentinelEl = document.createElement("div");
+    sentinelEl.className = "article-list__sentinel";
+    sentinelEl.setAttribute("aria-hidden", "true");
+
+    stateMessageEl = document.createElement("p");
+    stateMessageEl.className = "article-list__state";
+    stateMessageEl.textContent = "로딩 중...";
+
+    articleListEl.append(stateMessageEl, sentinelEl);
+  }
+
+  function handleArticleIntersection(entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadArticles();
+      }
+    });
+  }
+
+  async function loadArticles(reset = false) {
+    if (reset) {
+      clearArticleCards();
+      hasNextPage = true;
+      stateMessageEl.textContent = "로딩 중...";
+      stateMessageEl.style.display = "block";
+      if (observer && sentinelEl) {
+        observer.observe(sentinelEl);
+      }
+    }
+
+    if (isLoading || !hasNextPage) return;
+
+    isLoading = true;
+    stateMessageEl.textContent = "로딩 중...";
+    stateMessageEl.style.display = "block";
+
+    try {
+      const res = await fetch(`http://localhost:8080/articles?page=${page}&size=${ARTICLE_PAGE_SIZE}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.message || "게시글 목록을 불러오지 못했습니다.");
+      }
+
+      const articles = data?.result?.articles ?? [];
+      const totalPages = Number(data?.result?.totalPages ?? 0);
+      const currentPage = Number(data?.result?.currentPage ?? page);
+      const apiHasNext = data?.result?.hasNext;
+
+      if (articles.length === 0) {
+        stateMessageEl.textContent = "아직 작성된 게시글이 없습니다.";
+        hasNextPage = false;
+        stopArticleObserver();
+        return;
+      }
+
+      if (articles.length === 0) {
+        hasNextPage = false;
+        stopArticleObserver();
+        stateMessageEl.style.display = "none";
+        return;
+      }
+
+      renderArticleCards(articles);
+
+      hasNextPage =
+        typeof apiHasNext === "boolean"
+          ? apiHasNext
+          : totalPages > 0
+          ? currentPage < totalPages
+          : articles.length === ARTICLE_PAGE_SIZE;
+
+      page = currentPage + 1;
+
+      if (!hasNextPage) {
+        stateMessageEl.style.display = "none";
+        stopArticleObserver();
+      } else {
+        stateMessageEl.style.display = "none";
+      }
+    } catch (err) {
+      stateMessageEl.textContent = err.message || "게시글 목록을 불러오지 못했습니다.";
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  function clearArticleCards() {
+    const cards = articleListEl.querySelectorAll(".article-card");
+    cards.forEach((card) => card.remove());
+  }
+
+  function stopArticleObserver() {
+    if (observer && sentinelEl) {
+      observer.unobserve(sentinelEl);
+    }
+  }
+
+  function renderArticleCards(articles) {
+    const fragment = document.createDocumentFragment();
+
+    articles.forEach((article) => {
+      const card = document.createElement("article");
+      card.className = "article-card";
+      card.dataset.articleId = article?.article_id ?? "";
+      card.tabIndex = 0;
+      card.setAttribute("aria-label", `${article?.title || "게시글"} 상세보기`);
+
+      const header = document.createElement("div");
+      header.className = "card-header";
+
+      const titleEl = document.createElement("h2");
+      titleEl.className = "card-title";
+      titleEl.textContent = article?.title || "제목 없음";
+      header.appendChild(titleEl);
+
+      const meta = document.createElement("div");
+      meta.className = "card-meta";
+
+      const stats = document.createElement("div");
+      stats.className = "card-stats";
+
+      const likeEl = document.createElement("span");
+      likeEl.textContent = `좋아요 ${formatCount(article?.likeCount ?? 0)}`;
+
+      const commentEl = document.createElement("span");
+      commentEl.textContent = `댓글 ${formatCount(article?.commentCount ?? 0)}`;
+
+      const viewEl = document.createElement("span");
+      viewEl.textContent = `조회수 ${formatCount(article?.viewCount ?? 0)}`;
+
+      stats.append(likeEl, commentEl, viewEl);
+
+      const timeEl = document.createElement("time");
+      timeEl.className = "card-time";
+      const createdAt = article?.createdAt ?? article?.created_at;
+      if (createdAt) {
+        timeEl.dateTime = createdAt;
+        timeEl.textContent = formatDate(createdAt);
+      } else {
+        timeEl.textContent = "";
+      }
+
+      meta.append(stats, timeEl);
+
+      const divider = document.createElement("hr");
+      divider.className = "card-divider";
+
+      const author = document.createElement("div");
+      author.className = "card-author";
+
+      const avatar = document.createElement("span");
+      avatar.className = "avatar";
+      setAvatarImage(avatar, article?.writtenBy?.profile_image ?? article?.writtenBy?.profileImage);
+
+      const name = document.createElement("span");
+      name.className = "name";
+      name.textContent = article?.writtenBy?.nickname || "익명";
+
+      author.append(avatar, name);
+      card.append(header, meta, divider, author);
+
+      card.addEventListener("click", () => goToDetail(card.dataset.articleId));
+      fragment.appendChild(card);
+    });
+
+    articleListEl.insertBefore(fragment, sentinelEl);
+  }
 }
-fetch("./scripts/components/header.html")
-  .then((res) => res.text())
-  .then((html) => (document.getElementById("header").innerHTML = html));
+
+function goToDetail(articleId) {
+  if (!articleId) return;
+  location.href = `/articles/detail.html?articleId=${articleId}`;
+}
+
+function setAvatarImage(target, imageUrl) {
+  if (!target) return;
+  if (imageUrl) {
+    target.style.backgroundImage = `url("${imageUrl}")`;
+    target.style.backgroundSize = "cover";
+    target.style.backgroundPosition = "center";
+  } else {
+    target.style.removeProperty("background-image");
+  }
+}

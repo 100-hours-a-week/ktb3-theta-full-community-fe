@@ -123,11 +123,14 @@ function main() {
 
       if (!res.ok) {
         const help = getErrorMessageElement(nicknameInput);
-        help.textContent = data?.message || "회원 정보를 수정하지 못했습니다.";
+        if (data.message.includes("nickname_already_exists")) {
+          help.textContent = "중복된 닉네임 입니다.";
+        } else {
+          help.textContent = "회원 정보를 수정하지 못했습니다.";
+        }
         help.style.display = "block";
         return;
       }
-
       // TODO: Localstorage 이미지 갱신
       showToast("수정 완료");
     } catch (err) {
