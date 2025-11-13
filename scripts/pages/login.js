@@ -1,4 +1,5 @@
 import { fetchHeader, getErrorMessageElement } from "../utils/dom.js";
+import { api } from "../utils/api.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -63,28 +64,17 @@ function main() {
     };
 
     try {
-      const res = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const help = getErrorMessageElement(passwordInput);
-        help.textContent = "아이디 또는 비밀번호를 확인하세요.";
-        help.style.display = "block";
-        submitBtn.disabled = false;
-        submitBtn.style.backgroundColor = "";
-        return;
-      }
-
-      const data = await res.json();
+      const data = await api.post("/auth/login", { body: payload });
       localStorage.setItem("userId", data.result.user_id);
       localStorage.setItem("userProfileImage", data.result.profile_image);
       location.href = "/index.html";
     } catch (err) {
       const help = getErrorMessageElement(passwordInput);
-      help.textContent = "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+      if (err.status === 401 || err.status === 400) {
+        help.textContent = "아이디 또는 비밀번호를 확인하세요.";
+      } else {
+        help.textContent = err.message || "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+      }
       help.style.display = "block";
       submitBtn.disabled = false;
       submitBtn.style.backgroundColor = "";

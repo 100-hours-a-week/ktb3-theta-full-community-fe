@@ -1,6 +1,7 @@
 import { fetchHeader, getErrorMessageElement } from "../utils/dom.js";
 import { getUserId } from "../utils/auth.js";
 import { showToast } from "../components/toast.js";
+import { api } from "../utils/api.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -37,11 +38,9 @@ function main() {
     submitBtn.disabled = true;
 
     try {
-      const res = await fetch(`http://localhost:8080/users?userId=${userId}`);
-      const data = await res.json();
-
-      if (!res.ok || !data?.result) {
-        throw new Error(data?.message || "회원 정보를 불러오지 못했습니다.");
+      const data = await api.get("/users", { params: { userId } });
+      if (!data?.result) {
+        throw new Error("회원 정보를 불러오지 못했습니다.");
       }
 
       const user = data.result;
@@ -113,29 +112,19 @@ function main() {
     };
 
     try {
-      const res = await fetch(`http://localhost:8080/users?userId=${userId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      await api.patch("/users", { params: { userId }, body: payload });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        const help = getErrorMessageElement(nicknameInput);
-        if (data.message.includes("nickname_already_exists")) {
-          help.textContent = "중복된 닉네임 입니다.";
-        } else {
-          help.textContent = "회원 정보를 수정하지 못했습니다.";
-        }
-        help.style.display = "block";
-        return;
+      if (currentProfileImage) {
+        localStorage.setItem("userProfileImage", currentProfileImage);
+      } else {
+        localStorage.removeItem("userProfileImage");
       }
-      // TODO: Localstorage 이미지 갱신
-      showToast("수정 완료");
+
+      showToast("수정완료");
     } catch (err) {
       const help = getErrorMessageElement(nicknameInput);
-      help.textContent = err.message || "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+      const message = err.body?.message || err.message || "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+      help.textContent = message;
       help.style.display = "block";
     } finally {
       submitBtn.disabled = false;

@@ -1,4 +1,5 @@
 import { fetchHeader, getErrorMessageElement } from "../utils/dom.js";
+import { api } from "../utils/api.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -98,34 +99,26 @@ function main() {
     };
 
     try {
-      const res = await fetch("http://localhost:8080/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        if (data.message.includes("email_already_exists")) {
-          const help = getErrorMessageElement(emailInput);
-          help.textContent = "중복된 이메일 입니다.";
-          help.style.display = "block";
-        } else if (data.message.includes("nickname_already_exists")) {
-          const help = getErrorMessageElement(nicknameInput);
-          help.textContent = "중복된 닉네임 입니다.";
-          help.style.display = "block";
-        } else {
-          throw new Error(data?.message || "회원 가입에 실패하였습니다.");
-        }
-
-        submitBtn.disabled = false;
-        submitBtn.style.backgroundColor = "";
-        return;
-      }
-
+      const res = await api.post("/users", { body: payload });
       location.href = "/login.html";
     } catch (err) {
-      showErrorMessageElement(nicknameInput, "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+      const message = err.body?.message || "";
+      if (message.includes("email_already_exists")) {
+        const help = getErrorMessageElement(emailInput);
+        help.textContent = "중복된 이메일 입니다.";
+        help.style.display = "block";
+      } else if (message.includes("nickname_already_exists")) {
+        const help = getErrorMessageElement(nicknameInput);
+        help.textContent = "중복된 닉네임 입니다.";
+        help.style.display = "block";
+      } else {
+        showErrorMessageElement(
+          nicknameInput,
+          err.message || "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요."
+        );
+      }
+      submitBtn.disabled = false;
+      submitBtn.style.backgroundColor = "";
     }
   }
 

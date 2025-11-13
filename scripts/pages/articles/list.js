@@ -1,6 +1,7 @@
 import { getUserId } from "../../utils/auth.js";
 import { fetchHeader } from "../../utils/dom.js";
 import { formatDate, formatCount } from "../../utils/format.js";
+import { api } from "../../utils/api.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -70,19 +71,16 @@ function main() {
     stateMessageEl.style.display = "block";
 
     try {
-      const res = await fetch(`http://localhost:8080/articles?page=${page}&size=${ARTICLE_PAGE_SIZE}`);
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data?.message || "게시글 목록을 불러오지 못했습니다.");
-      }
+      const data = await api.get("/articles", {
+        params: { page, size: ARTICLE_PAGE_SIZE },
+      });
 
       const articles = data?.result?.articles ?? [];
       const totalPages = Number(data?.result?.totalPages ?? 0);
       const currentPage = Number(data?.result?.currentPage ?? page);
       const apiHasNext = data?.result?.hasNext;
 
-      if (articles.length === 0) {
+      if (articles.length === 0 && currentPage === 1) {
         stateMessageEl.textContent = "아직 작성된 게시글이 없습니다.";
         hasNextPage = false;
         stopArticleObserver();
@@ -91,8 +89,8 @@ function main() {
 
       if (articles.length === 0) {
         hasNextPage = false;
-        stopArticleObserver();
         stateMessageEl.style.display = "none";
+        stopArticleObserver();
         return;
       }
 
@@ -106,12 +104,10 @@ function main() {
           : articles.length === ARTICLE_PAGE_SIZE;
 
       page = currentPage + 1;
+      stateMessageEl.style.display = "none";
 
       if (!hasNextPage) {
-        stateMessageEl.style.display = "none";
         stopArticleObserver();
-      } else {
-        stateMessageEl.style.display = "none";
       }
     } catch (err) {
       stateMessageEl.textContent = err.message || "게시글 목록을 불러오지 못했습니다.";

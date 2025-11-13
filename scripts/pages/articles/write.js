@@ -1,5 +1,6 @@
 import { fetchHeader, getErrorMessageElement } from "../../utils/dom.js";
 import { getUserId } from "../../utils/auth.js";
+import { api } from "../../utils/api.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -53,20 +54,10 @@ function main() {
     };
 
     try {
-      const res = await fetch(`http://localhost:8080/articles?userId=${userId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data?.message || "게시글 작성에 실패했습니다.");
-      }
-
+      await api.post("/articles", { params: { userId }, body: payload });
       location.href = "/index.html";
     } catch (err) {
-      help.textContent = "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+      help.textContent = err.message || "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
     }
   }
 }

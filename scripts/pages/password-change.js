@@ -1,6 +1,7 @@
 import { fetchHeader, getErrorMessageElement } from "../utils/dom.js";
 import { getUserId } from "../utils/auth.js";
 import { showToast } from "../components/toast.js";
+import { api } from "../utils/api.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
@@ -27,23 +28,14 @@ function main() {
     submitBtn.disabled = true;
 
     try {
-      const payload = { password: passwordInput.value };
-      const res = await fetch(`http://localhost:8080/users/password?userId=${userId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      await api.patch("/users/password", { params: { userId }, body: { password: passwordInput.value } });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data?.message || "비밀번호 변경에 실패했습니다.");
-      }
-
-      showToast("수정 완료");
+      passwordInput.value = "";
+      passwordConfirmInput.value = "";
+      showToast("수정완료");
     } catch (err) {
       const help = getErrorMessageElement(passwordConfirmInput);
-      help.textContent = "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+      help.textContent = err.message || "네트워크 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.";
     } finally {
       submitBtn.disabled = false;
     }

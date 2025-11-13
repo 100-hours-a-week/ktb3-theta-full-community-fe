@@ -2,6 +2,7 @@ import { fetchHeader } from "../../utils/dom.js";
 import { getUserId } from "../../utils/auth.js";
 import { formatDate, formatCount } from "../../utils/format.js";
 import { showToast } from "../../components/toast.js";
+import { api } from "../../utils/api.js";
 import { confirmModal } from "../../components/modal.js";
 
 document.addEventListener("DOMContentLoaded", main);
@@ -46,13 +47,7 @@ function main() {
 
   async function loadArticle() {
     try {
-      const res = await fetch(`http://localhost:8080/articles/${articleId}`);
-      const data = await res.json();
-      if (!res.ok) {
-        if (res.message) {
-        }
-        throw new Error(data?.message || "게시글을 불러오지 못했습니다.");
-      }
+      const data = await api.get(`/articles/${articleId}`);
       renderArticle(data.result);
     } catch (err) {
       showGlobalMessage(err.message || "게시글을 불러오지 못했습니다.");
@@ -172,20 +167,10 @@ function main() {
         if (!ok) return;
 
         try {
-          const res = await fetch(`http://localhost:8080/articles/${articleId}?userId=${userId}`, {
-            method: "DELETE",
-          });
-
-          if (!res.ok) {
-            const data = await res.json().catch(() => ({}));
-            throw new Error(data?.message || "게시글 삭제에 실패했습니다.");
-          }
-
-          if (res.ok) {
-            location.replace("/index.html");
-          }
+          await api.delete(`/articles/${articleId}`, { params: { userId } });
+          location.replace("/index.html");
         } catch (err) {
-          //TODO : 게시글 삭제에 실패
+          showToast(err.message || "게시글 삭제에 실패했습니다.");
         }
       });
     }
@@ -212,13 +197,9 @@ function main() {
     const pageToFetch = nextCommentPage;
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/articles/${articleId}/comments?page=${pageToFetch}&size=${COMMENT_PAGE_SIZE}`
-      );
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data?.message || "댓글을 불러오지 못했습니다.");
-      }
+      const data = await api.get(`/articles/${articleId}/comments`, {
+        params: { page: pageToFetch, size: COMMENT_PAGE_SIZE },
+      });
 
       const comments = data?.result?.comments ?? [];
       const totalCount = data?.result?.totalCount;
@@ -286,20 +267,16 @@ function main() {
 
       try {
         const isEditing = Boolean(editingCommentId);
-        const endpoint = isEditing
-          ? `http://localhost:8080/articles/${articleId}/comments/${editingCommentId}?userId=${userId}`
-          : `http://localhost:8080/articles/${articleId}/comments?userId=${userId}`;
-        const method = isEditing ? "PATCH" : "POST";
-
-        const res = await fetch(endpoint, {
-          method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content }),
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data?.message || "댓글 등록에 실패했습니다.");
+        if (isEditing) {
+          await api.patch(`/articles/${articleId}/comments/${editingCommentId}`, {
+            params: { userId },
+            body: { content },
+          });
+        } else {
+          await api.post(`/articles/${articleId}/comments`, {
+            params: { userId },
+            body: { content },
+          });
         }
 
         commentTextarea.value = "";
@@ -353,21 +330,16 @@ function main() {
     if (!ok) return;
 
     try {
-      const res = await fetch(`http://localhost:8080/articles/${articleId}/comments/${commentId}?userId=${userId}`, {
-        method: "DELETE",
+      await api.delete(`/articles/${articleId}/comments/${commentId}`, {
+        params: { userId },
       });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data?.message || "댓글 삭제에 실패했습니다.");
-      }
 
       if (editingCommentId === commentId) {
         resetCommentFormState();
       }
       await loadComments(true);
     } catch (err) {
-      // TODO: 댓글 삭제 처리에 실패했습니다 모달?
+      // TODO: 댓글 삭제 처리에 실패했습니다
     }
   }
 
