@@ -31,6 +31,7 @@ figure,
 blockquote,
 dl,
 dd {
+  color: rgb(50, 62, 69);
   margin-block-end: 0;
 }
 
@@ -42,6 +43,7 @@ ol[role="list"] {
 
 /* Set core body defaults */
 body {
+  background-color: rgb(247, 249, 251);
   min-height: 100vh;
   line-height: 1.5;
 }
