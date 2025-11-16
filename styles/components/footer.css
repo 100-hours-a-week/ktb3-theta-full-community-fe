@@ -1,0 +1,13 @@
+footer {
+  padding: 28px 5%;
+  text-align: right;
+}
+
+.footer-divider {
+  left: 0;
+  right: 0;
+  border: none;
+  border-top: 1px solid rgb(217, 221, 227);
+  margin: 0;
+  z-index: 10;
+}
