@@ -8,36 +8,25 @@
     <link rel="stylesheet" href="./styles/articles/list.css" />
     <script type="module" src="./scripts/pages/articles/list.js"></script>
   </head>
+  <div id="header"></div>
   <body>
-    <div id="header"></div>
-
     <div class="article-list-wrapper">
+      <div class="write-button-container">
+        <a href="./articles/write.html" class="write-button">게시글 작성</a>
+      </div>
       <main class="article-list-container">
-        <header class="list-head">
-          <h1 class="list-title">
-            안녕하세요,<br />
-            아무 말 대잔치 <strong>게시판</strong> 입니다.
-          </h1>
-        </header>
-
-        <div class="write-button-container">
-          <a href="./articles/write.html" class="write-button">게시글 작성</a>
-        </div>
-
         <section class="article-list">
           <article class="article-card">
             <div class="card-header">
-              <h2 class="card-title">제목 1</h2>
+              <h2 class="card-title">제목</h2>
             </div>
 
             <div class="card-meta">
               <div class="card-stats">
-                <span>좋아요 0</span>
-                <span>댓글 0</span>
-                <span>조회수 0</span>
+                <span> <img src="./assets/images/heart.svg" />0</span>
+                <span> <img src="./assets/images/message-square.svg" />0</span>
+                <span> <img src="./assets/images/eye.svg" />0</span>
               </div>
-
-              <time class="card-time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
             </div>
 
             <hr class="card-divider" />
@@ -46,43 +35,24 @@
               <span class="avatar" aria-hidden="true"></span>
               <span class="name">작성자</span>
             </div>
-          </article>
 
+            <time class="card-time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
+          </article>
+        </section>
+
+        <section class="trending-article-list">
+          <h3>인기 게시글</h3>
           <article class="article-card">
             <div class="card-header">
-              <h2 class="card-title">제목 1</h2>
+              <h2 class="card-title">제목</h2>
             </div>
 
             <div class="card-meta">
               <div class="card-stats">
-                <span>좋아요 0</span>
-                <span>댓글 0</span>
-                <span>조회수 0</span>
+                <span> <img src="./assets/images/heart.svg" />0</span>
+                <span> <img src="./assets/images/message-square.svg" />0</span>
+                <span> <img src="./assets/images/eye.svg" />0</span>
               </div>
-
-              <time class="card-time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
-            </div>
-
-            <hr class="card-divider" />
-
-            <div class="card-author">
-              <span class="avatar" aria-hidden="true"></span>
-              <span class="name">작성자</span>
-            </div>
-          </article>
-
-          <article class="article-card">
-            <div class="card-header">
-              <h2 class="card-title">제목 1</h2>
-            </div>
-
-            <div class="card-meta">
-              <div class="card-stats">
-                <span>좋아요 0</span>
-                <span>댓글 0</span>
-                <span>조회수 0</span>
-              </div>
-
               <time class="card-time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
             </div>
 
@@ -97,4 +67,5 @@
       </main>
     </div>
   </body>
+  <div id="footer"></div>
 </html>

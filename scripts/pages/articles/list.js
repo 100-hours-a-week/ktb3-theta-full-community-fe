@@ -1,5 +1,5 @@
 import { getUserId } from "../../utils/auth.js";
-import { fetchHeader } from "../../utils/dom.js";
+import { fetchFooter, fetchHeader } from "../../utils/dom.js";
 import { formatDate, formatCount } from "../../utils/format.js";
 import { api } from "../../utils/api.js";
 
@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", main);
 
 function main() {
   fetchHeader();
+  fetchFooter();
   getUserId();
 
   const ARTICLE_PAGE_SIZE = 7;
@@ -152,13 +153,15 @@ function main() {
       stats.className = "card-stats";
 
       const likeEl = document.createElement("span");
-      likeEl.textContent = `좋아요 ${formatCount(article?.likeCount ?? 0)}`;
+      likeEl.innerHTML = `<img src="./assets/images/heart.svg" /> ${formatCount(article?.likeCount ?? 0)}`;
 
       const commentEl = document.createElement("span");
-      commentEl.textContent = `댓글 ${formatCount(article?.commentCount ?? 0)}`;
+      commentEl.innerHTML = `<img src="./assets/images/message-square.svg" /> ${formatCount(
+        article?.commentCount ?? 0
+      )}`;
 
       const viewEl = document.createElement("span");
-      viewEl.textContent = `조회수 ${formatCount(article?.viewCount ?? 0)}`;
+      viewEl.innerHTML = `<img src="./assets/images/eye.svg" /> ${formatCount(article?.viewCount ?? 0)}`;
 
       stats.append(likeEl, commentEl, viewEl);
 

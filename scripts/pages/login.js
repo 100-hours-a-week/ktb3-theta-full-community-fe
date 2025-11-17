@@ -56,7 +56,6 @@ function main() {
     e.preventDefault();
     if (!validateAll()) return;
 
-    submitBtn.style.backgroundColor = "#7F6AEE";
     submitBtn.disabled = true;
 
     const payload = {
