@@ -8,38 +8,44 @@
     <link rel="stylesheet" href="./styles/join.css" />
     <script type="module" src="./scripts/pages/join.js"></script>
   </head>
+  <div id="header"></div>
   <body>
-    <div id="header"></div>
     <div class="join-wrapper">
       <h1>회원가입</h1>
       <div class="join-container">
         <form action="/join" method="post" enctype="multipart/form-data">
-          <label for="profile-image">프로필 사진</label>
-          <small class="field-error-message"></small>
-          <div class="profile-image-container">
-            <input type="file" id="profile-image" name="profileImage" accept="image/*" class="profile-image-input" />
-            <label for="profile-image" class="profile-image-label" aria-label="프로필 사진 선택">
-              <img id="profile-preview" alt="" />
-            </label>
+          <div class="join-field">
+            <label for="nickname">닉네임*</label>
+            <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required />
+            <small class="field-error-message"></small>
           </div>
-          <label for="email">이메일*</label>
-          <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required />
-          <small class="field-error-message"></small>
-          <label for="password">비밀번호*</label>
-          <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required />
-          <small class="field-error-message"></small>
-          <label for="confirm-password">비밀번호 확인*</label>
-          <input
-            type="password"
-            id="confirm-password"
-            name="confirm-password"
-            placeholder="비밀번호를 한 번 더 입력하세요"
-            required
-          />
-          <small class="field-error-message"></small>
-          <label for="nickname">닉네임*</label>
-          <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required />
-          <small class="field-error-message"></small>
+          <div class="join-field">
+            <label for="email">이메일*</label>
+            <div class="email">
+              <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required />
+              <button>인증 번호 발송</button>
+            </div>
+            <small class="field-error-message"></small>
+            <div class="email-verify">
+              <input type="number" id="email-verify" name="email-verify" placeholder="인증번호를 입력하세요" required />
+              <button>인증 확인</button>
+            </div>
+            <small class="field-error-message"></small>
+          </div>
+          <div class="join-field password">
+            <label for="password">비밀번호*</label>
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required />
+            <small class="field-error-message"></small>
+            <label for="confirm-password">비밀번호 확인*</label>
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirm-password"
+              placeholder="비밀번호를 한 번 더 입력하세요"
+              required
+            />
+            <small class="field-error-message"></small>
+          </div>
           <button type="submit">회원가입</button>
         </form>
 
@@ -49,4 +55,5 @@
       </div>
     </div>
   </body>
+  <div id="footer"></div>
 </html>
