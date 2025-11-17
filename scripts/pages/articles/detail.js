@@ -1,4 +1,4 @@
-import { fetchHeader } from "../../utils/dom.js";
+import { fetchFooter, fetchHeader } from "../../utils/dom.js";
 import { getUserId } from "../../utils/auth.js";
 import { formatDate, formatCount } from "../../utils/format.js";
 import { showToast } from "../../components/toast.js";
@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", main);
 
 function main() {
   fetchHeader();
+  fetchFooter();
 
   const COMMENT_PAGE_SIZE = 8;
 
@@ -32,6 +33,12 @@ function main() {
   let likeCount = 0;
   let isLiked = false;
   let likeThrottle = false;
+  const articleActionMenu = document.getElementById("post-action-menu");
+  const articleActionToggle = document.getElementById("post-action-toggle");
+  const articleActionDropdown = document.getElementById("post-action-dropdown");
+  if (articleActionMenu) {
+    articleActionMenu.style.display = "none";
+  }
 
   const params = new URLSearchParams(location.search);
   articleId = params.get("articleId");
@@ -127,12 +134,18 @@ function main() {
   }
 
   function toggleArticleActions(writerId) {
+    const isOwner = String(writerId ?? "") === String(userId);
     const editBtn = document.getElementById("post-edit-button");
     const deleteBtn = document.getElementById("post-delete-button");
 
-    const displayValue = String(writerId ?? "") === String(userId) ? "inline-flex" : "none";
+    const displayValue = isOwner ? "inline-flex" : "none";
     if (editBtn) editBtn.style.display = displayValue;
     if (deleteBtn) deleteBtn.style.display = displayValue;
+    if (articleActionMenu) articleActionMenu.style.display = displayValue;
+
+    if (!isOwner) {
+      closeAllDropdowns();
+    }
   }
 
   function setStatValue(elementId, value) {
@@ -167,6 +180,13 @@ function main() {
     const editBtn = document.getElementById("post-edit-button");
     const deleteBtn = document.getElementById("post-delete-button");
     likeButton = document.getElementById("like-button");
+    if (articleActionToggle && articleActionDropdown) {
+      articleActionToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleDropdown(articleActionDropdown, articleActionToggle);
+      });
+    }
+
     if (likeButton) {
       likeButton.addEventListener("click", handleToggleLike);
       fetchLikeStatus();
@@ -227,7 +247,11 @@ function main() {
     }
     if (!likeButton) return;
     likeButton.classList.toggle("is-liked", isLiked);
-    likeButton.style.backgroundColor = isLiked ? "#ACA0EB" : "#D9D9D9";
+    const likeIcon = likeButton.querySelector("img");
+    if (likeIcon) {
+      likeIcon.src = isLiked ? "../assets/images/heart-fill.svg" : "../assets/images/heart.svg";
+      likeIcon.alt = isLiked ? "좋아요 취소" : "좋아요";
+    }
   }
 
   async function loadComments(reset = false) {
@@ -349,6 +373,15 @@ function main() {
   function bindCommentActions() {
     if (!commentListEl) return;
     commentListEl.addEventListener("click", async (event) => {
+      const dropdownToggle = event.target.closest(".post-action-toggle");
+      if (dropdownToggle) {
+        const dropdown = dropdownToggle.nextElementSibling;
+        if (dropdown?.classList.contains("post-action-dropdown")) {
+          event.stopPropagation();
+          toggleDropdown(dropdown, dropdownToggle);
+        }
+        return;
+      }
       const target = event.target.closest("[data-action]");
       if (!target) return;
 
@@ -356,6 +389,7 @@ function main() {
       const commentId = commentItem?.dataset.commentId;
       if (!commentId) return;
 
+      closeAllDropdowns();
       if (target.dataset.action === "edit") {
         activateCommentEdit(commentItem, commentId);
       }
@@ -516,6 +550,37 @@ function main() {
     }
     setCommentError("");
   }
+
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".post-action-menu")) {
+      closeAllDropdowns();
+    }
+  });
+
+  function toggleDropdown(dropdownEl, toggleEl) {
+    if (!dropdownEl || !toggleEl) return;
+    const isOpen = dropdownEl.classList.contains("is-open");
+    closeAllDropdowns(dropdownEl);
+    if (isOpen) {
+      dropdownEl.classList.remove("is-open");
+      toggleEl.setAttribute("aria-expanded", "false");
+    } else {
+      dropdownEl.classList.add("is-open");
+      toggleEl.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  function closeAllDropdowns(exceptDropdown) {
+    document.querySelectorAll(".post-action-dropdown.is-open").forEach((dropdown) => {
+      if (dropdown !== exceptDropdown) {
+        dropdown.classList.remove("is-open");
+        const toggle = dropdown.previousElementSibling;
+        if (toggle?.classList.contains("post-action-toggle")) {
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      }
+    });
+  }
 }
 
 function createCommentItem(comment, options = {}) {
@@ -555,7 +620,22 @@ function createCommentItem(comment, options = {}) {
 
   if (showActions) {
     const actions = document.createElement("div");
-    actions.className = "post-actions";
+    actions.className = "post-action-menu";
+
+    const toggleButton = document.createElement("button");
+    toggleButton.type = "button";
+    toggleButton.className = "post-action-toggle";
+    toggleButton.setAttribute("aria-haspopup", "true");
+    toggleButton.setAttribute("aria-expanded", "false");
+
+    const toggleIcon = document.createElement("img");
+    toggleIcon.src = "../assets/images/more-vertical.svg";
+    toggleIcon.alt = "댓글 더보기";
+    toggleButton.appendChild(toggleIcon);
+
+    const dropdown = document.createElement("div");
+    dropdown.className = "post-action-dropdown";
+    dropdown.setAttribute("role", "menu");
 
     const editBtn = document.createElement("button");
     editBtn.type = "button";
@@ -569,7 +649,8 @@ function createCommentItem(comment, options = {}) {
     deleteBtn.dataset.action = "delete";
     deleteBtn.textContent = "삭제";
 
-    actions.append(editBtn, deleteBtn);
+    dropdown.append(editBtn, deleteBtn);
+    actions.append(toggleButton, dropdown);
     metaContainer.appendChild(actions);
   }
 

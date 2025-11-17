@@ -71,6 +71,14 @@
   font-weight: 800;
 }
 
+.theme {
+  font-size: 14px;
+  padding: 0px 8px;
+  background-color: #c3e8fb;
+  border: 1px solid #c3e8fb;
+  border-radius: 24px;
+}
+
 .card-time {
   font-size: 12px;
   color: #6b7280;
@@ -116,8 +124,8 @@
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: #d1d5db;
 }

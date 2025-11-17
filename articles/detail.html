@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="../styles/articles/detail.css" />
     <script type="module" src="../scripts/pages/articles/detail.js"></script>
   </head>
+  <div id="header"></div>
   <body>
-    <div id="header"></div>
-
     <div class="article-detail-wrapper">
       <main class="article-detail-container" data-article-id="">
         <header class="post-head">
@@ -22,11 +21,29 @@
                 <span class="name" id="post-author">작성자</span>
               </div>
               <time class="time" id="post-time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
+              <div class="view-count"><img src="../assets/images/eye.svg" /> <span id="view-count">245</span></div>
             </div>
 
             <div class="post-actions">
-              <button class="post-action-button" id="post-edit-button" aria-label="게시글 수정">수정</button>
-              <button class="post-action-button" id="post-delete-button" aria-label="게시글 삭제">삭제</button>
+              <button class="post-like" id="like-button">
+                <img src="../assets/images/heart.svg" /> <span id="like-count"> 12</span>
+              </button>
+              <button class="post-bookmark"><img src="../assets/images/bookmark.svg" /></button>
+              <div class="post-action-menu" id="post-action-menu">
+                <button
+                  type="button"
+                  class="post-action-toggle"
+                  id="post-action-toggle"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <img src="../assets/images/more-vertical.svg" alt="게시글 더보기" />
+                </button>
+                <div class="post-action-dropdown" id="post-action-dropdown" role="menu">
+                  <button class="post-action-button" id="post-edit-button" aria-label="게시글 수정">수정</button>
+                  <button class="post-action-button" id="post-delete-button" aria-label="게시글 삭제">삭제</button>
+                </div>
+              </div>
             </div>
           </div>
         </header>
@@ -41,32 +58,20 @@
           <p></p>
         </article>
 
-        <section class="post-stats" aria-label="게시글 통계">
-          <button class="stat like-button" id="like-button" type="button">
-            <strong id="like-count">0</strong>
-            <span>좋아요수</span>
-          </button>
-          <div class="stat">
-            <strong id="view-count">0</strong>
-            <span>조회수</span>
-          </div>
-          <div class="stat">
-            <strong id="comment-count">0</strong>
-            <span>댓글</span>
-          </div>
-        </section>
         <hr class="divider" />
-
         <section class="comment-write" aria-label="댓글 작성">
           <form id="comment-form" class="comment-form" action="#" method="post">
-            <label class="visually-hidden" for="comment-content">댓글</label>
+            <label for="comment-content"
+              >댓글 (
+              <span id="comment-count">0</span>
+              )</label
+            >
             <textarea id="comment-content" name="content" placeholder="댓글을 남겨주세요!" rows="4" required></textarea>
             <button type="submit" id="comment-submit">댓글 등록</button>
           </form>
         </section>
-
-        <section class="comment-list" aria-label="댓글 목록" id="comment-list">
-          <article class="comment-item" data-comment-id="">
+        <section class="comment-list" id="comment-list">
+          <article class="comment-item">
             <div class="comment-avatar">
               <span class="avatar" aria-hidden="true"></span>
             </div>
@@ -76,9 +81,14 @@
                   <span class="name">작성자</span>
                   <time class="time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
                 </div>
-                <div class="post-actions">
-                  <button class="post-action-button" id="comment-edit-button" aria-label="게시글 수정">수정</button>
-                  <button class="post-action-button" id="comment-delete-button" aria-label="게시글 삭제">삭제</button>
+                <div class="post-action-menu">
+                  <button type="button" class="post-action-toggle" aria-haspopup="true" aria-expanded="false">
+                    <img src="../assets/images/more-vertical.svg" alt="댓글 더보기" />
+                  </button>
+                  <div class="post-action-dropdown" role="menu">
+                    <button class="post-action-button" id="comment-edit-button" aria-label="게시글 수정">수정</button>
+                    <button class="post-action-button" id="comment-delete-button" aria-label="게시글 삭제">삭제</button>
+                  </div>
                 </div>
               </div>
               <p class="comment-body">댓글 내용</p>
@@ -103,4 +113,5 @@
       </main>
     </div>
   </body>
+  <div id="footer"></div>
 </html>
