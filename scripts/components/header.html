@@ -1,9 +1,23 @@
 <header class="header-wrapper">
   <div class="header-container">
     <a class="header-icon" href="/"> 커뮤니티 </a>
-    <div class="header-search">
-      <img src="../../assets/images/search.svg" />
-      <input type="text" id="search" name="search" placeholder="검색하기..." minlength="1" />
+    <div class="header-search-box">
+      <div class="header-search" id="header-search-trigger">
+        <img src="../../assets/images/search.svg" />
+        <input type="text" id="search" name="search" placeholder="검색하기..." minlength="1" autocomplete="off" />
+      </div>
+      <div class="search-dropdown" id="search-dropdown">
+        <div class="search-theme">
+          <div class="search-theme-list" id="search-theme-list">
+            <button type="button" class="search-theme-button is-active" data-theme="all">All</button>
+          </div>
+        </div>
+        <hr class="search-dropdown-divider" />
+        <div class="search-popular">
+          <div class="search-popular-title">인기 검색어</div>
+          <div class="search-popular-list" id="search-popular-list"></div>
+        </div>
+      </div>
     </div>
     <div class="header-actions">
       <a class="header-profile" href="../../my.html">

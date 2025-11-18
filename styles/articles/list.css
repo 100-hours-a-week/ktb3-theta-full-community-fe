@@ -1,6 +1,8 @@
 .article-list-wrapper {
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
+  margin: 32px 0 72px 0;
 }
 
 .article-list-container {
@@ -13,7 +15,7 @@
 .write-button-container {
   display: flex;
   justify-content: flex-end;
-  margin: 24px 10%;
+  margin: 0 10% 24px 10%;
 
   :hover {
     background-color: #8897a5;
