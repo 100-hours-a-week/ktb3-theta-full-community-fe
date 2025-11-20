@@ -37,7 +37,6 @@ function main() {
 
     sentinelEl = document.createElement("div");
     sentinelEl.className = "article-list__sentinel";
-    sentinelEl.setAttribute("aria-hidden", "true");
 
     stateMessageEl = document.createElement("p");
     stateMessageEl.className = "article-list__state";
@@ -136,7 +135,6 @@ function main() {
       card.className = "article-card";
       card.dataset.articleId = article?.article_id ?? "";
       card.tabIndex = 0;
-      card.setAttribute("aria-label", `${article?.title || "게시글"} 상세보기`);
 
       const header = document.createElement("div");
       header.className = "card-header";

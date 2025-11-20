@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>회원정보/비밀번호 수정</title>
+    <link rel="stylesheet" href="./styles/global.css" />
+    <link rel="stylesheet" href="./styles/my-change.css" />
+    <script type="module" src="./scripts/pages/my-change.js"></script>
+  </head>
+  <div id="header"></div>
+  <body>
+    <div class="my-change-wrapper">
+      <h1>회원 정보 수정</h1>
+      <main class="my-change-container">
+        <form class="my-change-form" novalidate>
+          <section class="my-section">
+            <h2 class="my-section-title">프로필</h2>
+            <div class="form-field">
+              <label for="profile-image" hidden>프로필 사진</label>
+              <input type="file" id="profile-image" name="profileImage" accept="image/*" class="visually-hidden" />
+              <label for="profile-image" class="profile-image-picker">
+                <img id="profile-preview" alt="프로필 이미지" />
+                <span class="profile-image-picker-badge">변경</span>
+              </label>
+              <small class="field-error-message"></small>
+            </div>
+
+            <div class="form-field">
+              <label>이메일</label>
+              <div class="static-text" id="email"></div>
+            </div>
+
+            <div class="form-field">
+              <label for="nickname">닉네임</label>
+              <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required />
+              <small class="field-error-message"></small>
+            </div>
+          </section>
+
+          <section class="my-section">
+            <h2 class="my-section-title">비밀번호 변경</h2>
+            <div class="form-field">
+              <label for="password">비밀번호</label>
+              <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" />
+              <small class="field-error-message"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="confirm-password">비밀번호 확인</label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                placeholder="비밀번호를 한 번 더 입력하세요"
+              />
+              <small class="field-error-message"></small>
+            </div>
+          </section>
+
+          <div class="form-actions">
+            <button type="button" class="text-button" id="account-delete">회원 탈퇴</button>
+            <button type="submit" class="primary-button">정보 수정</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </body>
+  <div id="footer"></div>
+</html>

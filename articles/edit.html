@@ -5,23 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>게시글 수정</title>
     <link rel="stylesheet" href="../styles/global.css" />
-    <link rel="stylesheet" href="../styles/articles/edit.css" />
+    <link rel="stylesheet" href="../styles/articles/write.css" />
     <script type="module" src="../scripts/pages/articles/edit.js"></script>
   </head>
+  <div id="header"></div>
   <body>
-    <div id="header"></div>
-
-    <div class="article-edit-wrapper">
+    <div class="article-wrapper">
       <h1>게시글 수정</h1>
 
-      <main class="article-edit-container">
-        <form
-          class="article-edit-form"
-          action="/articles/1"
-          method="post"
-          enctype="multipart/form-data"
-          data-article-id="1"
-        >
+      <main class="article-container">
+        <form class="article-form" data-article-id="1">
+          <div class="form-field">
+            <label for="theme">주제*</label>
+            <select id="theme" name="theme" required>
+              <option value="">주제를 선택하세요</option>
+              <option value="tech">Tech</option>
+              <option value="java">Java</option>
+              <option value="spring">Spring</option>
+              <option value="javascript">JavaScript</option>
+              <option value="react">React</option>
+              <option value="kotlin">Kotlin</option>
+            </select>
+          </div>
           <div class="form-field">
             <label for="title">제목*</label>
             <input
@@ -46,9 +51,13 @@
             <input type="file" id="image" name="image" accept="image/*" />
           </div>
 
-          <button type="submit">수정하기</button>
+          <div class="buttons">
+            <button class="cancel">취소</button>
+            <button type="submit">수정</button>
+          </div>
         </form>
       </main>
     </div>
   </body>
+  <div id="footer"></div>
 </html>

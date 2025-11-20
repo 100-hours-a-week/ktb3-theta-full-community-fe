@@ -1,4 +1,4 @@
-import { fetchHeader, getErrorMessageElement } from "../../utils/dom.js";
+import { fetchFooter, fetchHeader, getErrorMessageElement } from "../../utils/dom.js";
 import { getUserId } from "../../utils/auth.js";
 import { api } from "../../utils/api.js";
 
@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", main);
 
 function main() {
   fetchHeader();
+  fetchFooter();
   const userId = getUserId();
 
   const articleId = new URLSearchParams(location.search).get("articleId");

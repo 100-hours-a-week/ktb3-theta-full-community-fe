@@ -1,15 +1,3 @@
-.visually-hidden {
-  position: absolute !important;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .divider {
   border: none;
   border-top: 1px solid #e6e8eb;
@@ -142,7 +130,7 @@ img {
   text-align: left;
   cursor: pointer;
   font-size: 14px;
-  padding: 4px;
+  padding: 4px 6px;
 }
 
 .post-action-button:hover {
@@ -191,7 +179,7 @@ img {
   padding: 12px;
   border: 1px solid #cfd6df;
   border-radius: 12px;
-  background: #fff;
+  background: #fbfdff;
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;

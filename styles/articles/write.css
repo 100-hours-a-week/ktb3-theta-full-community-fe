@@ -1,22 +1,24 @@
-.article-write-wrapper {
+.article-wrapper {
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  color: #111;
+  margin: 48px 0 32px 0;
 
   h1 {
     text-align: center;
     font-size: 28px;
-    margin: 32px;
+    margin-bottom: 18px;
   }
 }
 
-.article-write-container {
-  width: 50%;
+.article-container {
+  width: 80%;
+  padding: 0 12px;
 }
 
-.article-write-form {
+.article-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,12 +37,13 @@
   }
 
   input[type="text"],
+  select,
   textarea,
   input[type="file"] {
     width: 100%;
     border: 1px solid #cfd6df;
     border-radius: 8px;
-    background: #fff;
+    background: #fbfdff;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
@@ -48,6 +51,17 @@
   input[type="text"] {
     height: 44px;
     padding: 10px 12px;
+  }
+
+  select {
+    height: 44px;
+    padding: 0 12px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 12px;
+    background: #fbfdff url("../../assets/images/chevron-down.svg") no-repeat right 0.75rem center;
+    background-size: 24px;
   }
 
   textarea {
@@ -61,27 +75,27 @@
     cursor: pointer;
   }
 
-  .field-error-message {
-    display: none;
-    margin-top: 6px;
-    font-size: 12px;
-    color: #d04b4b;
+  .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    gap: 24px;
+
+    button {
+      width: 40%;
+      height: 38px;
+      font-size: 18px;
+      font-weight: 700;
+    }
   }
 
-  button {
-    margin-top: 8px;
-    display: inline-block;
-    width: 70%;
-    height: 36px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    background: rgb(170, 160, 230);
-    color: #fff;
-  }
+  .cancel {
+    background: #bcccdc;
 
-  button:hover {
-    background-color: rgb(150, 140, 210);
+    &:hover {
+      background-color: #8897a5;
+    }
   }
 }

@@ -13,11 +13,16 @@
 }
 
 .profile-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.my-profile {
   padding: 0 24px;
   gap: 8px;
 }
 
-.profile-container img {
+.my-profile img {
   width: 82px;
   height: 82px;
   border-radius: 50%;
@@ -26,14 +31,41 @@
   margin-bottom: 18px;
 }
 
-.profile-container h3 {
+.my-profile h3 {
   margin: 8px 0;
   font-size: 24px;
 }
 
-.profile-container p {
+.my-profile p {
   margin: 0;
   color: #6b7280;
+}
+
+.buttons {
+  display: flex;
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.log-out,
+.settings {
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border-radius: 32px;
+  background-color: transparent;
+  cursor: pointer;
+
+  img {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+  }
+}
+
+.log-out:hover,
+.settings:hover {
+  background-color: #9aa6b2;
 }
 
 .my-articles-container {

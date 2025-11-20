@@ -17,7 +17,7 @@
           <div class="post-meta">
             <div class="post-meta-details">
               <div class="author">
-                <span class="avatar" aria-hidden="true"></span>
+                <span class="avatar"></span>
                 <span class="name" id="post-author">작성자</span>
               </div>
               <time class="time" id="post-time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
@@ -30,18 +30,12 @@
               </button>
               <button class="post-bookmark"><img src="../assets/images/bookmark.svg" /></button>
               <div class="post-action-menu" id="post-action-menu">
-                <button
-                  type="button"
-                  class="post-action-toggle"
-                  id="post-action-toggle"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
+                <button type="button" class="post-action-toggle" id="post-action-toggle">
                   <img src="../assets/images/more-vertical.svg" alt="게시글 더보기" />
                 </button>
                 <div class="post-action-dropdown" id="post-action-dropdown" role="menu">
-                  <button class="post-action-button" id="post-edit-button" aria-label="게시글 수정">수정</button>
-                  <button class="post-action-button" id="post-delete-button" aria-label="게시글 삭제">삭제</button>
+                  <button class="post-action-button" id="post-edit-button">수정</button>
+                  <button class="post-action-button" id="post-delete-button">삭제</button>
                 </div>
               </div>
             </div>
@@ -59,7 +53,7 @@
         </article>
 
         <hr class="divider" />
-        <section class="comment-write" aria-label="댓글 작성">
+        <section class="comment-write">
           <form id="comment-form" class="comment-form" action="#" method="post">
             <label for="comment-content"
               >댓글 (
@@ -73,7 +67,7 @@
         <section class="comment-list" id="comment-list">
           <article class="comment-item">
             <div class="comment-avatar">
-              <span class="avatar" aria-hidden="true"></span>
+              <span class="avatar"></span>
             </div>
             <div class="comment-content">
               <div class="comment-meta-container">
@@ -82,12 +76,12 @@
                   <time class="time" datetime="2021-01-01T00:00:00">2021-01-01 00:00:00</time>
                 </div>
                 <div class="post-action-menu">
-                  <button type="button" class="post-action-toggle" aria-haspopup="true" aria-expanded="false">
+                  <button type="button" class="post-action-toggle">
                     <img src="../assets/images/more-vertical.svg" alt="댓글 더보기" />
                   </button>
                   <div class="post-action-dropdown" role="menu">
-                    <button class="post-action-button" id="comment-edit-button" aria-label="게시글 수정">수정</button>
-                    <button class="post-action-button" id="comment-delete-button" aria-label="게시글 삭제">삭제</button>
+                    <button class="post-action-button" id="comment-edit-button">수정</button>
+                    <button class="post-action-button" id="comment-delete-button">삭제</button>
                   </div>
                 </div>
               </div>
@@ -97,7 +91,7 @@
 
           <article class="comment-item" data-comment-id="">
             <div class="comment-avatar">
-              <span class="avatar" aria-hidden="true"></span>
+              <span class="avatar"></span>
             </div>
             <div class="comment-content">
               <div class="comment-meta-container">

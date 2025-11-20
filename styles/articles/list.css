@@ -12,27 +12,6 @@
   margin: 0 auto;
 }
 
-.write-button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin: 0 10% 24px 10%;
-
-  :hover {
-    background-color: #8897a5;
-  }
-}
-
-.write-button {
-  background-color: #9aa6b2;
-  color: #fbfdff;
-  border: none;
-  padding: 6px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-}
-
 .article-list {
   width: 65%;
   display: grid;
@@ -57,7 +36,7 @@
 
 .article-card {
   width: 100%;
-  background: #fff;
+  background: #fbfdff;
   border: 1px solid #e6e8eb;
   border-radius: 16px;
   padding: 24px 24px;
@@ -142,4 +121,38 @@
 
 .name {
   font-weight: 700;
+}
+
+.write {
+  position: fixed;
+  bottom: 12%;
+  right: 10%;
+  display: inline-flex;
+  align-items: center;
+  padding: 24px;
+  border-radius: 999px;
+  box-shadow: 0 8px 8px rgba(51, 65, 85, 0.2);
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.write img {
+  width: 24px;
+}
+
+.write span {
+  max-width: 0;
+  opacity: 0;
+  white-space: nowrap;
+  transition: max-width 0.3s ease;
+  font-size: 18px;
+}
+
+.write:hover {
+  box-shadow: 0 8px 8px rgba(51, 65, 85, 0.2);
+}
+
+.write:hover span {
+  opacity: 1;
+  max-width: 120px;
+  margin-left: 8px;
 }
