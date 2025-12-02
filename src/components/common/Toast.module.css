@@ -1,20 +1,25 @@
-.container {
+.toastStack {
   position: fixed;
   left: 50%;
   bottom: 10%;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 12px;
+  z-index: 999;
+}
+
+.toastContainer {
   display: inline-flex;
   align-items: center;
   padding: 16px 24px;
-  transform: translateX(-50%);
   background: var(--white-color);
   color: var(--text-main);
   border: 1px solid var(--outline);
   border-radius: 99px;
   box-shadow: 0 8px 6px color-mix(in srgb, var(--text-main) 30%, transparent);
   font-size: 16px;
-  pointer-events: none;
-  z-index: 99;
   gap: 8px;
+  opacity: 0.9;
 }
 
 .icon {
