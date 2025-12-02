@@ -1,0 +1,84 @@
+.wrapper {
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 12px;
+}
+
+.container {
+  width: 80%;
+}
+
+.title {
+  margin: 16px 0;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-sub);
+  font-size: 14px;
+  gap: 12px;
+}
+
+.metaDetails {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  display: inline-block;
+}
+
+.viewCount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statButton {
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  font-size: 14px;
+  gap: 4px;
+  margin-left: 4px;
+  color: var(--text-main);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--outline);
+  margin: 18px 0;
+}
+
+.body {
+  margin: 0 0 18px;
+  line-height: 1.6;
+  color: var(--text-main);
+}

@@ -2,16 +2,17 @@ import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tansta
 import { fetchArticles, fetchArticle, createArticle, updateArticle, deleteArticle } from "../../api/articles";
 import { showToast } from "../../lib/toast";
 
-export function useFetchArticles({ page }) {
+export function useFetchArticles() {
   return useInfiniteQuery({
-    queryKey: ["articles", { page }],
+    queryKey: ["articles"],
     queryFn: ({ pageParam = 1 }) => fetchArticles({ page: pageParam, size: 7 }),
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNext ? lastPage.currentPage + 1 : undefined;
+      return lastPage?.result?.hasNext ? Number(lastPage?.result?.currentPage || 1) + 1 : undefined;
     },
     onError: () => {
       showToast("게시글을 불러오지 못했습니다.", { type: "error" });
     },
+    initialPageParam: 1,
   });
 }
 
@@ -31,8 +32,7 @@ export function useCreateArticle() {
 
   return useMutation({
     mutationFn: ({ payload, imageFile }) => createArticle(payload, imageFile),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
       showToast("게시글이 등록되었습니다.", { type: "info" });
     },

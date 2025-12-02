@@ -5,8 +5,8 @@ import Button from "../components/common/Button";
 import { useFetchArticles } from "../features/articles/hooks";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import styles from "./Home.module.css";
-import trendingIcon from "../../public/assets/images/trending.svg";
-import plusIcon from "../../public/assets/images/plus.svg";
+import trendingIcon from "/assets/images/trending.svg";
+import plusIcon from "/assets/images/plus.svg";
 
 // trending 임시 mock data
 const trending = [
@@ -50,7 +50,7 @@ const trending = [
 
 function Home() {
   const { goToArticleWrite } = usePageRouter();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useFetchArticles({ page: 1 });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useFetchArticles();
 
   const articles = useMemo(
     () => data?.pages?.flatMap((page) => (page?.result?.articles ? page.result.articles : [])) ?? [],

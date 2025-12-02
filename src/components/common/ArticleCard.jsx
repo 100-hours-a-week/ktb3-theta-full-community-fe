@@ -1,12 +1,12 @@
+import { Link } from "react-router-dom";
 import Theme from "./Theme";
 import formatDate from "../../utils/formatDate";
-import eyeIcon from "../../../public/assets/images/eye.svg";
-import heartIcon from "../../../public/assets/images/heart.svg";
-import messageIcon from "../../../public/assets/images/message-square.svg";
+import eyeIcon from "/assets/images/eye.svg";
+import heartIcon from "/assets/images/heart.svg";
+import messageIcon from "/assets/images/message-square.svg";
 import styles from "./ArticleCard.module.css";
-import { Link } from "react-router-dom";
 
-function ArticleCard({ article_id, title, writtenBy, createdAt, viewCount, likeCount, commentCount, theme }) {
+function ArticleCard({ article_id, title, writtenBy, createdAt, viewCount, likeCount, commentCount, theme = "None" }) {
   return (
     <Link className={styles.articleCard} to={`/articles/${article_id}`}>
       <div className={styles.cardHeader}>
@@ -16,7 +16,9 @@ function ArticleCard({ article_id, title, writtenBy, createdAt, viewCount, likeC
 
       <div className={styles.cardMeta}>
         <div className={styles.cardAuthor}>
-          <span className={styles.avatar}></span>
+          <span className={styles.avatar}>
+            {writtenBy?.profile_image ? <img src={writtenBy?.profile_image} /> : null}
+          </span>
           <span className={styles.name}>{writtenBy?.nickname}</span>
 
           <time className={styles.cardTime} dateTime={createdAt}>
@@ -27,15 +29,15 @@ function ArticleCard({ article_id, title, writtenBy, createdAt, viewCount, likeC
         <div className={styles.cardStats}>
           <span className={styles.cardStatItem}>
             <img className={styles.cardStatIcon} src={heartIcon} />
-            {likeCount}
+            {likeCount ?? 0}
           </span>
           <span className={styles.cardStatItem}>
             <img className={styles.cardStatIcon} src={messageIcon} />
-            {commentCount}
+            {commentCount ?? 0}
           </span>
           <span className={styles.cardStatItem}>
             <img className={styles.cardStatIcon} src={eyeIcon} />
-            {viewCount}
+            {viewCount ?? 0}
           </span>
         </div>
       </div>

@@ -20,9 +20,10 @@
 }
 
 .trendingList {
+  display: flex;
+  flex-direction: column;
   width: 35%;
   margin-top: 12px;
-  display: grid;
   gap: 16px;
 }
 
