@@ -9,6 +9,7 @@ import settingsIcon from "/assets/images/settings.svg";
 import { useFetchUser } from "../features/users/hooks";
 import { useLogout } from "../features/auth/hooks";
 import formatDate from "../utils/formatDate";
+import { resolveImageUrl } from "../utils/image";
 
 // 내가 쓴 글 mock data
 const myArticles = [
@@ -85,7 +86,9 @@ function My() {
       <div className={styles.container}>
         <div className={styles.profileRow}>
           <div className={styles.profile}>
-            <div className={styles.avatar}>{profile.profile_image && <img src={profile.profile_image} />}</div>
+            <div className={styles.avatar}>
+              {profile.profile_image && <img src={resolveImageUrl(profile.profile_image)} />}
+            </div>
             <h3>{profile.nickname}</h3>
             <p>가입일: {formatDate(profile.createdAt)}</p>
           </div>

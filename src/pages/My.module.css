@@ -34,6 +34,11 @@
   border-radius: 50%;
   background: var(--bg-surface);
   margin-bottom: 18px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .profile h3 {
