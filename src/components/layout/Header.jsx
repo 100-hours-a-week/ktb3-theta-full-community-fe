@@ -6,6 +6,7 @@ import Button from "../common/Button";
 import userIcon from "/assets/images/user.svg";
 import styles from "./Header.module.css";
 import { resolveImageUrl } from "../../utils/image";
+import logo from "/assets/infio.png";
 
 function Header() {
   const { goToLogin } = usePageRouter();
@@ -15,7 +16,7 @@ function Header() {
       <header className={styles.headerWrapper}>
         <div className={styles.headerContainer}>
           <Link className={styles.headerIcon} to="/">
-            커뮤니티
+            <img src={logo} />
           </Link>
           <SearchBar />
           <div className={styles.headerActions}>
