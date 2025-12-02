@@ -1,17 +1,17 @@
-import ActionMenu from "../components/common/ActionMenu";
-import CommentForm from "../features/comments/components/CommentForm";
-import CommentList from "../features/comments/components/CommentList";
-import PostCover from "../features/articles/components/PostCover";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useUser } from "../contexts/useUser";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import { usePageRouter } from "../hooks/usePageRouter";
+import formatDate from "../utils/formatDate";
 import { useFetchArticle, useDeleteArticle } from "../features/articles/hooks";
 import { useFetchComments, useCreateComment, useUpdateComment, useDeleteComment } from "../features/comments/hooks";
 import { useCreateLike, useDeleteLike, useFetchLike } from "../features/likes/hooks";
-import { useUser } from "../contexts/useUser";
-import { usePageRouter } from "../hooks/usePageRouter";
-import formatDate from "../utils/formatDate";
 import Modal from "../components/common/Modal";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import PostCover from "../features/articles/components/PostCover";
+import ActionMenu from "../components/common/ActionMenu";
+import CommentForm from "../features/comments/components/CommentForm";
+import CommentList from "../features/comments/components/CommentList";
 import styles from "./ArticleDetail.module.css";
 
 const icons = {
@@ -137,8 +137,6 @@ function ArticleDetail() {
       createLike(articleId);
     }
   };
-  const authorProfileImage =
-    articleData?.result?.writtenBy?.profile_image || articleData?.result?.writtenBy?.profileImage;
 
   return (
     <div className={styles.wrapper}>
@@ -152,7 +150,11 @@ function ArticleDetail() {
               <div className={styles.meta}>
                 <div className={styles.metaDetails}>
                   <div className={styles.author}>
-                    <span className={styles.avatar}>{authorProfileImage ? <img src={authorProfileImage} /> : null}</span>
+                    <span className={styles.avatar}>
+                      {articleData?.result?.writtenBy?.profile_image ? (
+                        <img src={articleData?.result?.writtenBy?.profile_image} />
+                      ) : null}
+                    </span>
                     <span className={styles.name}>{articleData?.result?.writtenBy?.nickname}</span>
                   </div>
                   <time className={styles.time}>{formatDate(articleData?.result?.createdAt)}</time>
@@ -165,7 +167,7 @@ function ArticleDetail() {
                 <div className={styles.actions}>
                   <button className={styles.statButton} onClick={handleToggleLike}>
                     <img src={likeData?.result?.is_liked ?? false ? icons.heartFill : icons.heart} />
-                    <span>{likeData?.result?.like_count ?? articleData?.result?.likeCount ?? 0}</span>
+                    <span>{likeData?.result?.like_count ?? articleData?.result?.likeCount}</span>
                   </button>
                   <button className={styles.statButton}>
                     <img src={icons.bookmark} />
@@ -210,9 +212,11 @@ function ArticleDetail() {
                   onEdit={handleEditComment}
                   onDelete={handleDeleteComment}
                   canModify={(comment) => {
-                    const commentOwner =
-                      comment?.writtenBy?.userId || comment?.writtenBy?.user_id || comment?.writtenBy?.id;
-                    return user?.user_id && commentOwner && String(user?.user_id) === String(commentOwner);
+                    return (
+                      user?.user_id &&
+                      comment?.writtenBy?.user_id &&
+                      String(user?.user_id) === String(comment?.writtenBy?.user_id)
+                    );
                   }}
                   lastItemRef={hasNextPage ? loadMoreRef : undefined}
                 />

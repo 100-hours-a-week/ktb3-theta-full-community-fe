@@ -1,0 +1,14 @@
+.cover {
+  margin: 16px 0 20px;
+  background: var(--white-color);
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
