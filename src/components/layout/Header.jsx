@@ -1,21 +1,23 @@
-import { useNavigate } from "react-router-dom";
-import Button from "../common/Button";
+import { Link } from "react-router-dom";
+import { usePageRouter } from "../../hooks/usePageRouter";
 import SearchBar from "../SearchBar";
+import Button from "../common/Button";
 import styles from "./Header.module.css";
+import userIcon from "../../assets/images/user.svg";
 
 function Header() {
-  const navigate = useNavigate();
+  const { goToLogin } = usePageRouter();
   return (
     <>
       <header className={styles.headerWrapper}>
         <div className={styles.headerContainer}>
-          <a className={styles.headerIcon} href="/">
+          <Link className={styles.headerIcon} to="/">
             커뮤니티
-          </a>
+          </Link>
           <SearchBar />
           <div className={styles.headerActions}>
-            <Button variant="icon" onClick={() => navigate("/login")}>
-              <img src="./assets/images/user.svg" style={{ width: "18px", height: "32px" }} />
+            <Button variant="icon" onClick={goToLogin}>
+              <img src={userIcon} style={{ width: "18px", height: "32px" }} />
             </Button>
             {/* <a className={styles.headerProfile} href="../../my.html">
               <span className={styles.headerProfileImage}></span>

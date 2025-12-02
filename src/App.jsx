@@ -12,18 +12,18 @@ import ArticleDetail from "./pages/ArticleDetail";
 
 function App() {
   return (
-    <Layout>
-      <Routes>
+    <Routes>
+      <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/join" element={<Join />} />
         <Route path="/login" element={<Login />} />
         <Route path="/my" element={<My />} />
         <Route path="/my/change" element={<ProfileEdit />} />
         <Route path="/articles/write" element={<ArticleWrite />} />
-        <Route path="/articles/:id/edit" element={<ArticleEdit />} />
-        <Route path="/articles/:id" element={<ArticleDetail />} />
-      </Routes>
-    </Layout>
+        <Route path="/articles/:articleId/edit" element={<ArticleEdit />} />
+        <Route path="/articles/:articleId" element={<ArticleDetail />} />
+      </Route>
+    </Routes>
   );
 }
 

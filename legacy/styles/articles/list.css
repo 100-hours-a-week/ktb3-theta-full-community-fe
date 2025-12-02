@@ -20,6 +20,7 @@
 
 .trending-article-list {
   width: 35%;
+  height: fit-content;
   margin-top: 12px;
 }
 
