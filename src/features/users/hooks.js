@@ -6,9 +6,6 @@ export function useFetchUser() {
   return useQuery({
     queryKey: ["user"],
     queryFn: () => fetchUsers(),
-    onSuccess: (data) => {
-      console.log("Fetched user:", data);
-    },
     onError: (error) => {
       console.error("Error fetching user:", error);
       showToast("사용자 정보를 불러오지 못했습니다.", { type: "error" });
@@ -21,8 +18,7 @@ export function useUpdateUser() {
 
   return useMutation({
     mutationFn: ({ payload, profileImage }) => updateUser(payload, profileImage),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       showToast("정보가 수정되었습니다.", { type: "info" });
     },
@@ -38,8 +34,7 @@ export function useUpdatePassword() {
 
   return useMutation({
     mutationFn: (payload) => updatePassword(payload),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       showToast("비밀번호가 변경되었습니다.", { type: "info" });
     },
@@ -54,8 +49,7 @@ export function useDeleteUser() {
 
   return useMutation({
     mutationFn: () => deleteUser(),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       showToast("회원 탈퇴가 완료되었습니다.", { type: "info" });
     },

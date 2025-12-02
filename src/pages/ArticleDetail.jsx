@@ -4,6 +4,7 @@ import { useUser } from "../contexts/useUser";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { usePageRouter } from "../hooks/usePageRouter";
 import formatDate from "../utils/formatDate";
+import { resolveImageUrl } from "../utils/image";
 import { useFetchArticle, useDeleteArticle } from "../features/articles/hooks";
 import { useFetchComments, useCreateComment, useUpdateComment, useDeleteComment } from "../features/comments/hooks";
 import { useCreateLike, useDeleteLike, useFetchLike } from "../features/likes/hooks";
@@ -137,7 +138,6 @@ function ArticleDetail() {
       createLike(articleId);
     }
   };
-
   return (
     <div className={styles.wrapper}>
       <main className={styles.container}>
@@ -152,7 +152,7 @@ function ArticleDetail() {
                   <div className={styles.author}>
                     <span className={styles.avatar}>
                       {articleData?.result?.writtenBy?.profile_image ? (
-                        <img src={articleData?.result?.writtenBy?.profile_image} />
+                        <img src={resolveImageUrl(articleData?.result?.writtenBy?.profile_image)} />
                       ) : null}
                     </span>
                     <span className={styles.name}>{articleData?.result?.writtenBy?.nickname}</span>
@@ -186,7 +186,7 @@ function ArticleDetail() {
 
             <hr className={styles.divider} />
 
-            <PostCover src={articleData?.result?.article_image} />
+            <PostCover src={resolveImageUrl(articleData?.result?.article_image)} />
 
             <article className={styles.body}>
               <p>{articleData?.result?.content}</p>

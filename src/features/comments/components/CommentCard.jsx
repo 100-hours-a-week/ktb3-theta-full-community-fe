@@ -1,12 +1,15 @@
 import { forwardRef } from "react";
 import formatDate from "../../../utils/formatDate";
+import { resolveImageUrl } from "../../../utils/image";
 import ActionMenu from "../../../components/common/ActionMenu";
 import styles from "./CommentCard.module.css";
 
 const CommentCard = forwardRef(function CommentCard({ writtenBy, createdAt, content, menuItems = [] }, ref) {
   return (
     <article className={styles.card} ref={ref}>
-      <div className={styles.avatar}>{writtenBy?.profile_image ? <img src={writtenBy?.profile_image} /> : null}</div>
+      <div className={styles.avatar}>
+        {writtenBy?.profile_image ? <img src={resolveImageUrl(writtenBy?.profile_image)} /> : null}
+      </div>
       <div className={styles.content}>
         <div className={styles.metaRow}>
           <div className={styles.meta}>

@@ -5,6 +5,7 @@ import SearchBar from "../SearchBar";
 import Button from "../common/Button";
 import userIcon from "/assets/images/user.svg";
 import styles from "./Header.module.css";
+import { resolveImageUrl } from "../../utils/image";
 
 function Header() {
   const { goToLogin } = usePageRouter();
@@ -20,9 +21,13 @@ function Header() {
           <div className={styles.headerActions}>
             {user ? (
               <Link to="/my" className={styles.headerProfile}>
-                <span className={styles.headerProfileImage}>
-                  {user.profile_image ? <img src={user.profile_image} /> : <img src={userIcon} />}
-                </span>
+                {user.profile_image ? (
+                  <span className={styles.headerProfileImage}>
+                    <img src={resolveImageUrl(user.profile_image)} />
+                  </span>
+                ) : (
+                  <span className={styles.headerProfileImage}></span>
+                )}
               </Link>
             ) : (
               <Button variant="icon" onClick={goToLogin}>

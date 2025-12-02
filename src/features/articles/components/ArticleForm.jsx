@@ -4,11 +4,8 @@ import ErrorMessage from "../../../components/common/ErrorMessage";
 import Input from "../../../components/common/Input";
 import { useForm } from "../../../hooks/useForm";
 import { usePageRouter } from "../../../hooks/usePageRouter";
+import { resolveImageUrl } from "../../../utils/image";
 import styles from "./ArticleForm.module.css";
-
-const imagePath = {
-  remove: "/assets/images/x-circle.svg",
-};
 
 function ArticleForm({
   mode = "create",
@@ -19,7 +16,7 @@ function ArticleForm({
   onCancel,
 }) {
   const { theme = "None", title = "", content = "", imageSrc = "" } = initialValues;
-  const [preview, setPreview] = useState(imageSrc);
+  const [preview, setPreview] = useState(resolveImageUrl(imageSrc));
   const themes = ["None", "Daily", "Game", "Keyboard", "Dog", "Cat"];
 
   const objectUrlRef = useRef(null);
@@ -139,7 +136,7 @@ function ArticleForm({
             <div className={`${styles.imagePreview} ${preview ? styles.imagePreviewVisible : ""}`}>
               {preview ? <img src={preview} /> : null}
               <Button
-                variant="imageRemove"
+                variant="tertiary"
                 size="sm"
                 type="button"
                 onClick={() => {
@@ -149,7 +146,6 @@ function ArticleForm({
                   }
                 }}
               >
-                <img src={imagePath.remove} />
                 이미지 삭제
               </Button>
             </div>

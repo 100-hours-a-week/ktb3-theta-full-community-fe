@@ -22,22 +22,13 @@ export function useCreateLike() {
       await queryClient.cancelQueries({ queryKey: ["like", articleId] });
       const prevLike = queryClient.getQueryData(["like", articleId]);
       queryClient.setQueryData(["like", articleId], (old) => {
-        const currentLiked =
-          old?.result?.liked ?? old?.result?.isLiked ?? old?.result?.is_liked ?? old?.liked ?? old?.isLiked ?? false;
-        const liked = !currentLiked;
-        const currentCount =
-          old?.result?.likeCount ??
-          old?.result?.like_count ??
-          old?.likeCount ??
-          old?.like_count ??
-          0;
-        const count = Math.max(0, currentCount + 1);
         return {
           ...(old || {}),
-          result: { ...(old?.result || {}), liked, isLiked: liked, is_liked: liked, likeCount: count, like_count: count },
-          liked,
-          likeCount: count,
-          like_count: count,
+          result: {
+            ...(old?.result || {}),
+            is_liked: !old?.result?.is_liked,
+            like_count: Math.max(0, old?.result?.like_count + 1),
+          },
         };
       });
       return { prevLike };
@@ -64,22 +55,13 @@ export function useDeleteLike() {
       await queryClient.cancelQueries({ queryKey: ["like", articleId] });
       const prevLike = queryClient.getQueryData(["like", articleId]);
       queryClient.setQueryData(["like", articleId], (old) => {
-        const currentLiked =
-          old?.result?.liked ?? old?.result?.isLiked ?? old?.result?.is_liked ?? old?.liked ?? old?.isLiked ?? false;
-        const liked = !currentLiked;
-        const currentCount =
-          old?.result?.likeCount ??
-          old?.result?.like_count ??
-          old?.likeCount ??
-          old?.like_count ??
-          0;
-        const count = Math.max(0, currentCount - 1);
         return {
           ...(old || {}),
-          result: { ...(old?.result || {}), liked, isLiked: liked, is_liked: liked, likeCount: count, like_count: count },
-          liked,
-          likeCount: count,
-          like_count: count,
+          result: {
+            ...(old?.result || {}),
+            is_liked: !old?.result?.is_liked,
+            like_count: Math.max(0, old?.result?.like_count - 1),
+          },
         };
       });
       return { prevLike };

@@ -45,28 +45,20 @@ function Join() {
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.profileImage}>
           <div className={styles.avatar}>{profileImage && <img src={profileImage} />}</div>
-          {(() => {
-            const profileImageRegister = register("profileImage", {
+          <Input
+            type="url"
+            placeholder="프로필 이미지 URL을 입력하세요 (선택)"
+            {...register("profileImage", {
               pattern: {
                 value: /^(https?:\/\/)([\w-]+\.)+[\w-]+(\/[\w\-./?%&=]*)?$/i,
                 message: "올바른 URL 형식을 입력해주세요.",
               },
-            });
-            return (
-              <>
-                <Input
-                  type="url"
-                  placeholder="프로필 이미지 URL을 입력하세요 (선택)"
-                  {...profileImageRegister}
-                  onChange={(e) => {
-                    profileImageRegister.onChange(e);
-                    setProfileImage(e.target.value);
-                  }}
-                />
-                <ErrorMessage message={errors.profileImage} />
-              </>
-            );
-          })()}
+              onChange: (e) => {
+                setProfileImage(e.target.value);
+              },
+            })}
+          />
+          <ErrorMessage message={errors.profileImage} />
         </div>
 
         <div className={styles.section}>
