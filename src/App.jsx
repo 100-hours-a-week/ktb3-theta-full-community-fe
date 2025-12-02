@@ -9,6 +9,7 @@ import ProfileEdit from "./pages/ProfileEdit";
 import ArticleWrite from "./pages/ArticleWrite";
 import ArticleEdit from "./pages/ArticleEdit";
 import ArticleDetail from "./pages/ArticleDetail";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/articles/write" element={<ArticleWrite />} />
         <Route path="/articles/:articleId/edit" element={<ArticleEdit />} />
         <Route path="/articles/:articleId" element={<ArticleDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

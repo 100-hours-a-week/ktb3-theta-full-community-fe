@@ -1,0 +1,16 @@
+.container {
+  width: 80%;
+  margin: 25% auto 33% auto;
+  padding: 0 12px;
+}
+
+.alert {
+  margin: auto;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 48px;
+}
+
+.title {
+  text-align: center;
+}
