@@ -1,30 +1,60 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { usePageRouter } from "../hooks/usePageRouter";
+import { useForm } from "../hooks/useForm";
+import { registerUser } from "../api/users";
+import { showToast } from "../lib/toast";
+import { resolveImageUrl } from "../utils/image";
 import Button from "../components/common/Button";
 import ErrorMessage from "../components/common/ErrorMessage";
 import Input from "../components/common/Input";
-import { useForm } from "../hooks/useForm";
-import { registerUser } from "../api/users";
-import { usePageRouter } from "../hooks/usePageRouter";
 import styles from "./Join.module.css";
-import { showToast } from "../lib/toast";
 
 function Join() {
   const { goToLogin } = usePageRouter();
-  const [profileImage, setProfileImage] = useState("");
+  const fileInputRef = useRef(null);
+  const [previewUrl, setPreviewUrl] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
-  const { register, handleSubmit, errors, isSubmitting, getValues } = useForm({
-    defaultValues: { email: "", nickname: "", password: "", passwordConfirm: "", profileImage: "" },
+  const { register, handleSubmit, errors, isSubmitting, getValues, setValue } = useForm({
+    defaultValues: { email: "", nickname: "", password: "", passwordConfirm: "", profileImage: null },
   });
+
+  const handleAvatarPick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0] || null;
+    setValue("profileImage", file, { shouldValidate: false });
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setPreviewUrl(reader.result || "");
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewUrl("");
+    }
+  };
+
+  const handleImageRemove = () => {
+    setValue("profileImage", null, { shouldValidate: false });
+    setPreviewUrl("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const onSubmit = async (values) => {
     setFieldErrors({});
+    const imageFile = values.profileImage instanceof File ? values.profileImage : null;
     try {
-      await registerUser({
-        email: values.email.trim(),
-        nickname: values.nickname.trim(),
-        password: values.password,
-        profileImage: values.profileImage?.trim() || null,
-      });
+      await registerUser(
+        {
+          email: values.email.trim(),
+          nickname: values.nickname.trim(),
+          password: values.password,
+        },
+        imageFile
+      );
       showToast("회원가입이 완료되었습니다.", { type: "info" });
       goToLogin();
     } catch (err) {
@@ -44,20 +74,19 @@ function Join() {
       <h1 className={styles.title}>회원가입</h1>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.profileImage}>
-          <div className={styles.avatar}>{profileImage && <img src={profileImage} />}</div>
-          <Input
-            type="url"
-            placeholder="프로필 이미지 URL을 입력하세요 (선택)"
-            {...register("profileImage", {
-              pattern: {
-                value: /^(https?:\/\/)([\w-]+\.)+[\w-]+(\/[\w\-./?%&=]*)?$/i,
-                message: "올바른 URL 형식을 입력해주세요.",
-              },
-              onChange: (e) => {
-                setProfileImage(e.target.value);
-              },
-            })}
-          />
+          <div className={styles.avatar} onClick={handleAvatarPick}>
+            {previewUrl && <img src={resolveImageUrl(previewUrl) || previewUrl} />}
+            <input
+              type="file"
+              accept="image/*"
+              style={{ opacity: 0, position: "absolute", inset: 0, cursor: "pointer" }}
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
+          </div>
+          <Button variant="tertiary" size="sm" type="button" onClick={handleImageRemove} disabled={isSubmitting}>
+            이미지 삭제
+          </Button>
           <ErrorMessage message={errors.profileImage} />
         </div>
 
