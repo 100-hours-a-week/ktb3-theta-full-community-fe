@@ -10,9 +10,8 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: (payload) => login(payload),
-    onSuccess: async () => {
-      const user = await fetchUsers();
-      setUser(user?.result);
+    onSuccess: (data) => {
+      setUser(data?.result);
       queryClient.invalidateQueries({ queryKey: ["user"] });
       showToast("로그인되었습니다.", { type: "info" });
     },
