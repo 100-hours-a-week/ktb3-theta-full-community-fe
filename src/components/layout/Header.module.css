@@ -56,12 +56,16 @@
   border-radius: 50%;
   background: transparent;
   border: 1px solid var(--outline);
+  overflow: hidden;
+  flex-shrink: 0;
   display: block;
+}
 
-  img {
-    width: 100%;
-    height: 100%;
-  }
+.headerProfileImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .headerDivider {
